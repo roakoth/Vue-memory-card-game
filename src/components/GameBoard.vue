@@ -15,8 +15,8 @@ return {
       cardTwo: "",
       disableDeck: false,
       gameOver: false,
-      display: false,
-      seen: false
+      matchedCards: false,
+      missedMatch: false
     };
   },
    mounted() {
@@ -56,11 +56,11 @@ flipCard(evt) {
     // this code will run if the card images match
     this.matchedPairs++; // if the card images match, we can increment the global `matchedPairs` variable by 1 match
     setTimeout(() => {
-          this.display = true;
+          this.matchedCards = true;
         }, 400);
 
         setTimeout(() => {
-          this.display = false;
+          this.matchedCards = false;
           return;
         }, 1200);
 
@@ -81,7 +81,7 @@ flipCard(evt) {
   setTimeout(() => {
     this.cardOne.classList.add("shake");
     this.cardTwo.classList.add("shake");
-    this.seen = true;
+    this.missedMatch = true;
   }, 400);
 
   // these cards didn't match so we'll un-flip them, but let the user see them both before they disappear
@@ -91,7 +91,7 @@ flipCard(evt) {
     this.cardOne = "";
     this.cardTwo = ""; // reset the cardOne & cardTwo variables to empty string
     this.disableDeck = false;
-    this.seen = false;
+    this.missedMatch = false;
     return;
   }, 1200);
 },
@@ -125,8 +125,8 @@ restartGame(){
       </li>
     </ul>
   </div>
-  <p id="matched" v-show="display">Cards matched!</p>
-  <p id="missed" v-show="seen">Cards did not match!</p>
+  <p id="matched" v-show="matchedCards">Cards matched!</p>
+  <p id="missed" v-show="missedMatch">Cards did not match!</p>
 
   <GameOver v-show=gameOver :onClick="restartGame" />
   </div>
